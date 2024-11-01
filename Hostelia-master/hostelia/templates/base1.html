@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HOMEPAGE</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/style_home.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+    <link rel="icon" href="{% static 'img/logo.jpg' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-h67+BY6V5/LuS6ZBjYrVL8DDI4OXTU41yxWw6EnrZxbwvJxO8Xq13oZyF2gyGmjCw+vtsH2rCgaW9Ej7Zb9tbw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        header {
+            background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('{% static "img/a1.jpg" %}');
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            min-height: 100px;
+
+
+            .circle {
+                {% comment %} background-color:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5),rgba(0,0,0,0.5)); {% endcomment %}
+                position: absolute;
+                top: 20px; /* Adjust this value to position the logo vertically */
+                left: 20px; /* Adjust this value to position the logo horizontally */
+                width: 100px; /* Adjust the width of the circle */
+                height: 100px; /* Adjust the height of the circle */
+                border-radius: 50%; /* Make it a circle */
+                overflow: hidden; /* Hide overflow content */
+                background-image: url('{% static "img/hostelia2.jpg" %}'); /* Set the logo image */
+                background-size: cover;
+                background-position: center;
+                z-index: 1; /* Ensure the logo is above other elements */
+                {% comment %} border: 1px solid rgba(250, 249, 249, 0.973); /* Add a solid white border with 3px thickness */ {% endcomment %}
+                box-shadow: 0 0 5px rgb(255, 255, 255); /* Add a shadow effect to further emphasize the thickness */
+            }
+            
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="main">
+            <a href="{% url 'home' %}"> <div class="circle">
+                {% comment %} <div class="logo">
+                    <img src="{% static 'img/hostelia.png' %}" alt="logo1">
+                </div> {% endcomment %}
+                
+            </div> </a>
+           
+            <ul>
+                <li class="active"><a href="{% url 'home' %}"><i class="bi bi-house-fill"></i>Home</a></li>
+                {% if user.is_authenticated%}
+                <li><a href="{% url 'user_login' %}" class="hover:text-gray-400">Login</a></li>
+                <li><a href="{% url 'logout' %}" class="hover:text-gray-400">Logout</a></li>
+                {%elif user.is_staff%}
+                <li><a href="{% url 'hm_dashboard' %}" class="hover:text-gray-400">Manager</a></li>
+                <li><a href="{% url 'logout' %}" class="hover:text-gray-400">Logout</a></li>
+                
+                {%else%}
+    
+                <li><a href="{% url 'user_login' %}" class="hover:text-gray-400">Login</a></li>
+                <li><a href="{% url 'register' %}" class="hover:text-gray-400">Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <div class="title">
+            <h1>HOSTELIA</h1>
+        </div>
+
+        <div class="title2">
+            <h3>FINDING HOSTELS MADE EASIER</h3>
+        </div>
+
+         <!-- Main Content (Hostel Images Section) -->
+        <div class="container mx-auto bg-cover bg-center  py-40 px-4">
+            <section class="my-8">
+                <!-- Section title -->
+            
+                <!-- Hostel cards container -->
+                <div id="hostel-slider" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <!-- Loop through each hostel and create a card -->
+                    {% for hostel in hostels %}
+                        <div class="bg-white rounded-lg shadow-lg hostel-card">
+                            <!-- Hostel image -->
+                            <img src="{{ hostel.picture.url }}" alt="{{ hostel.hostel_name }}" class="w-full h-48 object-cover rounded-t-lg">
+                            <!-- Hostel details -->
+                            <div class="p-4">
+                                <h2 class="text-lg font-semibold mb-2">{{ hostel.hostel_name }} Hostel</h2>
+                                <p class="text-gray-600">Location: {{ hostel.location }}</p>
+                                <!-- Link to view hostel details -->
+                                {% comment %} <a href="{% url 'client_booking' %}" class="block mt-2 text-white bg-blue-500 hover:bg-blue-600 rounded-md py-2 px-4 text-center rounded-pill">View Details</a> {% endcomment %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+   
+         
+    </header>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

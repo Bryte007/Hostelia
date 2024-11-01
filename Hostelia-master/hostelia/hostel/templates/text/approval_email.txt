@@ -1,0 +1,11 @@
+Subject: Booking Approval
+
+Dear {{ client_name }},
+
+Your booking has been approved.
+You will soon be contacted.
+
+Regards,
+Hostel Manager ,{{ manager_name }}
+
+{{ hostel_name }} Hostel

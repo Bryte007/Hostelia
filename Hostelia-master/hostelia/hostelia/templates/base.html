@@ -1,0 +1,54 @@
+<!-- base.html -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}HOSTELIA{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/slider.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/slider_in.css' %}">
+    <link rel="icon" href="{% static 'img/logo.jpg' %}" type="image/x-icon">
+
+
+    <style>
+        body {
+            /* background-image: url('{% static "img/room-3.jpg" %}'); */
+            background-size: 300px 400px; /* Adjust width and height as needed */
+            background-repeat: repeat;
+            background-position: center;
+            background-attachment: fixed;
+            background-color: #f8f9fa;
+        }
+
+        .text-white {
+            color: white;
+        }
+
+    </style>
+    
+
+
+
+
+</head>
+<body class="bg-gray-100">
+    {% include 'navbar.html' %}
+    {% block content %}
+    <!-- Main content goes here -->
+    {% endblock %}
+    {% comment %} {% include 'footer.html' %} {% endcomment %}
+    
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+</body>
+</html>
+
+
+

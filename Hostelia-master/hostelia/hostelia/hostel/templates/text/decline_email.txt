@@ -1,0 +1,10 @@
+Subject: Booking Disapproval
+
+Dear {{ client_name }},
+
+We regret to inform you that your booking has been declined.
+
+Regards,
+Hostel Manager , {{ manager_name  }}
+
+{{ hostel_name }} Hostel

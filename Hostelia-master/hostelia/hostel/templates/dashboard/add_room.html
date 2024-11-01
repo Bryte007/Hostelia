@@ -1,0 +1,130 @@
+<!-- dashboard/add_room.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/slider.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/slider_in.css' %}">
+    <link rel="icon" href="{% static 'img/logo.jpg' %}" type="image/x-icon">
+
+    <title>Add Room</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            background-image: url('{% static "img/d.jpg" %}');
+            width: 100wh;
+            height: 100vh;
+            box-sizing: border-box;
+            background-color: #dddddd;
+        }
+        form{
+            width: 35%;
+            margin: auto;
+            background-color: aliceblue;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 3px 2px 8px rgba(0,0,0,0.17);
+        }
+        form button{
+            font-weight: 700;
+            background-color: #009798;
+            color: aliceblue;
+            margin-top: 10px;
+            height: 40px;
+        }
+        form input{
+            outline: none;
+            border: 2px solid #dddddd;
+            padding: 5px 15px;
+            height: 40px;
+        }
+        form h1{
+            text-align: center;
+            color: #009798;
+            font-size: 25px;
+            font-weight: bold;
+        }
+        form label{
+            margin-top: 10px;
+        }
+        form select{
+            outline: none;
+            border: 2px solid #dddddd;
+            height: 40px;
+            margin-bottom: 10px;
+        }
+        .btn-back {
+            background-color: transparent;
+            color: #009798;
+            border: none;
+            text-decoration: underline;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-back:hover {
+            {% comment %} background-color: #009798; {% endcomment %}
+            {% comment %} text-decoration: underline; {% endcomment %}
+
+        }
+    </style>
+</head>
+<body>
+    <nav class="bg-gray-800 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="{% url 'hm_dashboard' %}">
+                    <img src="{% static 'img/logo.jpg' %}" alt="Hostelia Logo" class="mr-2" width="100" height="100" style="border: none;">
+                </a>
+                
+            </div>
+           <h1> <span class="text-decoration-8 font-bold ml-3 text-xl">HOSTELIA</span> </h1>
+            <ul class="flex space-x-4">
+                {% if user.is_authenticated%}
+                <li><a href="{% url 'hm_dashboard' %}" class="hover:text-gray-400">Home</a></li>
+                <li><a href="{% url 'logout' %}" class="hover:text-gray-400">Logout</a></li>
+                {%elif user.is_staff%}
+                <li><a href="{% url 'hm_dashboard' %}" class="hover:text-gray-400">Manager</a></li>
+                {%else%}
+    
+                <li><a href="{% url 'login' %}" class="hover:text-gray-400">Login</a></li>
+                <li><a href="{% url 'register' %}" class="hover:text-gray-400">Register</a></li>
+                {% endif %}
+                {% comment %} <li><a href="#" class="hover:text-gray-400">Find a Hostel</a></li> {% endcomment %}
+            </ul>
+        </div>
+    </nav>
+    <!-- <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form> -->
+
+    <form method="POST" action="{% url 'add_room' %}">
+        <a href="{% url 'hm_dashboard' %}" class="btn btn-secondary btn-back text-bold-black">Back</a>
+
+        {% csrf_token %}
+        <label for="hostel_id">Hostel:</label>
+        <select name="hostel_id" id="hostel_id">
+            {% for hostel in hostels %}
+                <option value="{{ hostel.id }}">{{ hostel.hostel_name }}</option>
+            {% endfor %}
+        </select>
+        <label for="room_number">Room Number:</label>
+        <input type="text" id="room_number" name="room_number" required>
+        <button type="submit">Add Room</button>
+    </form>
+    
+    
+    
+</body>
+</html>

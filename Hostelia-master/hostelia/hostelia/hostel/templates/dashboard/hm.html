@@ -1,0 +1,273 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <title>Hostel Manager Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+z5vO5rti/8HZ5s3spWqLFA+N5Gpj5Dk9aT1LIQ" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+z5vO5rti/8HZ5s3spWqLFA+N5Gpj5Dk9aT1LIQ" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/slider.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/slider_in.css' %}">
+    <link rel="icon" href="{% static 'img/logo.jpg' %}" type="image/x-icon">
+    <style>
+        body {
+            background-image: url('{% static "img/d.jpg" %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            background-color: #ffffff; 
+        }
+
+        .container-navbar  {
+            background-color: rgba(31, 41, 55);
+            padding: 2px 15px;
+          
+        }
+
+        .container-navbar ul{
+            display: flex;
+        }
+        a{
+            text-decoration: none;
+            padding: 5px;
+        }
+        li{
+            list-style-type: none;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            color: #ffffff !important; 
+        }
+
+        .nav-link {
+            color: #ffffff !important; 
+            font-weight: bold;
+        }
+
+        .nav-link:hover {
+            color: #17a2b8 !important;
+        }
+
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+        .section-container{
+            margin: 15px;
+            padding: 15px;
+        }
+        .container-navbar img{
+            width: 100px;
+        }
+        .section-container button{
+            width: 80%;
+            margin: auto;
+            border-radius: 0px;
+            margin-bottom: 15px;
+        }
+
+        .section-container h1, p{
+            padding: 15px;
+        }
+        section .r-number{
+            text-align: center;
+            color: #0a7765;
+        }
+        section .r-number span{
+            color: green;
+            font-size: 25px;
+            font-weight: bolder;
+        }
+     
+    </style>   
+</head>
+<body>
+
+    <nav class="container-navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center">
+                <a  href="{% url 'hm_dashboard' %}">
+                    <img  src="{% static 'img/logo.jpg' %}" alt="Hostelia Logo" class="mr-2" width="60" height="60" style="border: 10px;">
+                </a>
+                <!-- Hostelia Text -->
+                <ul class="navbar-nav ms-auto">
+                    <h1>
+                        <li class="nav-item">
+                            <a class="nav-link" > Welcome  {{user.username}} </a>
+                            
+                        </li> 
+                    </h1>
+
+                    <!-- Add Room Button -->
+                    <li class="nav-item">
+                        <form method="POST" action="{% url 'add_room' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="block text-white bg-green-500 hover:bg-green-600 rounded-md py-1 px-2 text-center rounded-pill">Add Room</button>
+                        </form>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'hm_history' %}">History</a>
+                    </li>
+                    <!-- Update Room Button -->
+                    {% if room.id %}
+                    <li class="nav-item">
+                        <form method="POST" action="{% url 'update_room' room.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="block text-white bg-blue-500 hover:bg-blue-600 rounded-md py-2 px-4 text-center rounded-pill">Update Room</button>
+                        </form>
+                    </li>
+                    {% endif %}
+
+                    <!-- Remove Room Button -->
+                    {% if room.id %}
+                    <li class="nav-item">
+                        <form method="POST" action="{% url 'remove_room' room.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="block mt-2 text-white bg-red-500 hover:bg-red-600 rounded-md py-2 px-4 text-center rounded-pill">Remove Room</button>
+                        </form>
+                    </li>
+                    {% endif %}
+
+
+                    {% comment %} {% if hostel_name %}
+                    <p class="navbar-brand">{{ hostel_name }} Hostel</p>
+                    {% endif %}         {% endcomment %}
+
+                  <li>
+                    <a class="navbar-brand" href="{% url 'hm_booking' %}">Bookings</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                  </li>
+
+
+                  <li>
+                    <a class="navbar-brand" href="{% url 'register_hostel' %}">Register Hostel</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                  </li>
+
+
+                  
+                </ul>
+            </div>
+
+            
+            <ul class="navbar-nav ms-auto">
+               
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="section-container mx-auto my-12">
+        <h1 class="font-bold text-center mb-6 available-rooms-title text-white" style="font-size: 2rem;"> {{ hostel_name }} Hostel</h1>
+        <div id="hostel-slider" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {% if hostels %}
+                <!-- Display hostel cards -->
+                {% for hostel in hostels %}
+                    {% for room in hostel.rooms.all %}
+                        <div class="bg-white rounded-lg shadow-md hostel-card">
+                            <img src="{{ hostel.picture.url }}" alt="{{ hostel.hostel_name }}" class="w-full h-48 object-cover rounded-t-lg" />
+                            <h2 class=" r-number text-lg font-semibold mb-2"> Room Number <span>{{ room.room_number }}</span></h2>
+                            <!-- Remove Room Form -->
+                            <form method="POST" action="{% url 'remove_room' room.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="block mt-2 text-white bg-red-500 hover:bg-red-600 rounded-md py-2 px-4 text-center rounded-pill">Remove Room</button>
+                            </form>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            {% else %}
+                <!-- Display prompt to register a hostel -->
+                <div class="text-center text-white">
+                    <h2>No hostels registered yet!</h2>
+                    <p>Please <a href="{% url 'register_hostel' %}" class="text-blue-500">register a hostel</a>.</p>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+    
+    
+
+<!-- Add Bootstrap JS link here -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-DzYYNy0zS1vC/YEYLlFgc43azOjwMQQvcvbDVH+hy6o5gKdNWqp5U0fA8gVUus2P" crossorigin="anonymous"></script>
+<!-- <script>
+ 
+ function addRoom(hostelId) {
+    var roomNumber = prompt("Enter room number:");
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    if (roomNumber !== null) {
+        fetch(`/hostel/${hostelId}/add_room/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify({ room_number: roomNumber })
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Room added successfully');
+                location.reload(); // Reload the page to update the room list
+            } else {
+                alert('Failed to add room');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        });
+    }
+}
+
+
+function removeRoom(button) {
+    var roomId = button.dataset.roomId;
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    if (confirm("Are you sure you want to remove this room?")) {
+        fetch(`/remove_room/${roomId}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                // Reload the page after removing a room
+                location.reload();
+            } else {
+                console.error('Failed to remove room');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+}
+
+</script> -->
+    
+</body>
+</html>

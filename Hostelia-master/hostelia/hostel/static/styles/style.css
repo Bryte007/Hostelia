@@ -1,0 +1,33 @@
+/* Add CSS for slider */
+.slider-container {
+    overflow: hidden;
+}
+
+.slider {
+    display: flex;
+    animation: slide 10s infinite linear;
+}
+
+.slide {
+    min-width: 100%;
+    flex: 1;
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* Styles for HOSTELIA */
+.text-2xl {
+    font-family: 'Arial', sans-serif; /* Change font-family as needed */
+    font-weight: bold;
+    letter-spacing: 2px; /* Adjust letter-spacing as needed */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Add text-shadow for better visibility */
+}
+
+

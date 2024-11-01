@@ -1,0 +1,122 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Manager Booking History</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+z5vO5rti/8HZ5s3spWqLFA+N5Gpj5Dk9aT1LIQ" crossorigin="anonymous">
+    <link rel="icon" href="{% static 'img/logo.jpg' %}" type="image/x-icon">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            background-image: url('{% static "img/logo.jpg" %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            background-color: #ffffff; /* Set background color to white */
+        }
+
+        .navbar {
+            background-color: #343a40;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: #ffffff !important;
+        }
+
+        .navbar-nav .nav-link {
+            color: #ffffff !important;
+            font-weight: bold;
+        }
+
+        .container {
+            padding-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            background-color: #ffffff;
+            border-collapse: collapse;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #343a40;
+            color: #ffffff;
+        }
+
+        td {
+            border-bottom: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <h1> <a class="navbar-brand text-white" href="{% url 'hm_history' %}"> Hostel Booking History</a> </h1>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'hm_booking' %}">Booking Board</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'hm_dashboard' %}">Rooms</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h1> <a class="navbar-brand text-white" href="{% url 'hm_history' %}"> Hostel Booking History</a> </h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Client Name</th>
+                <th scope="col">Room Number</th>
+                <th scope="col">Status</th>
+                <th scope="col">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.client_name.user.username }}</td>
+                <td>{{ booking.room_number.room_number }}</td>
+                <td>
+                    {% if booking.approved %}
+                        Approved
+                    {% elif booking.declined %}
+                        Declined
+                    {% else %}
+                        Pending
+                    {% endif %}
+                </td>
+                <td>{{ booking.date }}</td> <!-- Display the date of booking -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-DzYYNy0zS1vC/YEYLlFgc43azOjwMQQvcvbDVH+hy6o5gKdNWqp5U0fA8gVUus2P" crossorigin="anonymous"></script>
+</body>
+</html>

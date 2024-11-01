@@ -1,0 +1,30 @@
+<!-- navbar.html -->
+{% load static %}
+{% block content %}
+<nav class="bg-gray-800 text-white p-4">
+    <div class="container mx-auto flex justify-between items-center">
+        <div class="flex items-center">
+            <a href="{% url 'home' %}">
+                <img src="{% static 'img/logo.jpg' %}" alt="Hostelia Logo" class="mr-2" width="100" height="100" style="border: none;">
+            </a>
+            
+        </div>
+       <h1> <span class="text-decoration-8 font-bold ml-3 text-xl">HOSTELIA</span> </h1>
+        <ul class="flex space-x-4">
+            {% if user.is_authenticated%}
+            <li><a href="{% url 'home' %}" class="hover:text-gray-400">Home</a></li>
+            <li><a href="{% url 'logout' %}" class="hover:text-gray-400">Logout</a></li>
+            {%elif user.is_staff%}
+            <li><a href="{% url 'hm_dashboard' %}" class="hover:text-gray-400">Manager</a></li>
+            <li><a href="{% url 'logout' %}" class="hover:text-gray-400">Logout</a></li>
+            
+            {%else%}
+
+            <li><a href="{% url 'user_login' %}" class="hover:text-gray-400">Login</a></li>
+            <li><a href="{% url 'register' %}" class="hover:text-gray-400">Register</a></li>
+            {% endif %}
+            {% comment %} <li><a href="#" class="hover:text-gray-400">Find a Hostel</a></li> {% endcomment %}
+        </ul>
+    </div>
+</nav>
+{% endblock content %}

@@ -1,0 +1,36 @@
+{% load static %}
+
+{% block content %}
+    <!-- Main Content (Hostel Images Section) -->
+    <div class="container mx-auto bg-cover bg-center rounded-lg border border-gray-300 py-4 px-4" >
+        <section class="my-3">
+            <!-- Section title -->
+            <h1 class="text-3xl font-bold text-center mb-6 text-black">Finding Hostels Made Easier</h1>
+            
+            <!-- Hostel cards container -->
+            <div id="hostel-slider" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- Loop through each hostel and create a card -->
+                {% for hostel in hostels %}
+
+
+               
+                <div class="bg-white rounded-lg shadow-md hostel-card">
+                    <!-- Hostel image -->
+                    <img src="{{ hostel.picture.url }}" alt="{{ hostel.hostel_name }}" class="w-full h-48 object-cover rounded-t-lg">
+                    <!-- Hostel details -->
+                    <div class="p-4">
+                        <h2 class="text-lg font-semibold mb-2">{{ hostel.hostel_name }}</h2>
+                        <p class="text-gray-600">Location: {{ hostel.location }}</p>
+                        {% comment %} <p class="text-gray-600">Manager: {{ hostel.manager_name }}</p>
+                        <p class="text-gray-600">Contact: {{ hostel.contact }}</p> {% endcomment %}
+                        <!-- Link to view hostel details -->
+                        {% comment %} <a href="{% url 'client_booking' %}" class="block mt-2 text-white bg-blue-500 hover:bg-blue-600 rounded-md py-2 px-4 text-center rounded-pill">View Details</a> {% endcomment %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+{% endblock content %}
+
+
